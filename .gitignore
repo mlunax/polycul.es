@@ -60,3 +60,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Project files
+dev.db
+pip-selfcheck.json
+bin
+include
