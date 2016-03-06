@@ -1,1 +1,11 @@
 {% extends "layout.jinja2" %}
+
+{% block content %}
+<form action="/save" method="post">
+    <textarea name="graph">
+        {{ inherited }}
+    </textarea>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+    <input type="submit" />
+</form>
+{% endblock %}
