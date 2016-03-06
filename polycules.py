@@ -5,15 +5,13 @@ import sqlite3
 from contextlib import closing
 from flask import (
     abort,
+    g,
     Flask,
     request,
-    session,
-    g,
     redirect,
-    url_for,
-    abort,
     render_template,
-    flash
+    request,
+    session,
 )
 
 # Config
@@ -114,6 +112,7 @@ def create_polycule():
 @app.route('/save', methods=['POST'])
 def save_polycule():
     """ Save a created polycule. """
+    # TODO check json encoding, check size
     g.db.execute('insert into polycules (graph) values (?)',
         [request.form['graph']])
     g.db.commit()
