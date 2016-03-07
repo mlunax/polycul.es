@@ -79,7 +79,7 @@ function restart() {
     .attr('stroke-width', function(d) { return d.strength; })
     .attr('stroke-dasharray', function(d) {
       if (d.dashed) {
-        return '5,5';
+        return '' + [d.strength / 1.5, d.strength / 1.5;
       }
     });
   // remove old links
@@ -89,7 +89,7 @@ function restart() {
     .attr('stroke-width', function(d) { return d.strength; })
     .attr('stroke-dasharray', function(d) {
       if (d.dashed) {
-        return '5,5';
+        return '' + [d.strength / 1.5, d.strength / 1.5];
       }
     });
   path.select('.center-text')
