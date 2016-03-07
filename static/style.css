@@ -64,6 +64,8 @@ a:hover {
 
 #graph .node circle {
     fill: #888;
+    stroke: #888;
+    stroke-width: 1px;
 }
 
 #graph .node text {

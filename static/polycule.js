@@ -76,12 +76,22 @@ function restart() {
     .attr('y1', function(d) { return d.source.y; })
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; })
-    .attr('stroke-width', function(d) { return d.strength; });
+    .attr('stroke-width', function(d) { return d.strength; })
+    .attr('stroke-dasharray', function(d) {
+      if (d.dashed) {
+        return '' + [d.strength / 1.5, d.strength / 1.5;
+      }
+    });
   // remove old links
   path.exit().remove();
 
   path.select('line')
-    .attr('stroke-width', function(d) { return d.strength; });
+    .attr('stroke-width', function(d) { return d.strength; })
+    .attr('stroke-dasharray', function(d) {
+      if (d.dashed) {
+        return '' + [d.strength / 1.5, d.strength / 1.5];
+      }
+    });
   path.select('.center-text')
     .text(function(d) { return d.centerText; });
   path.select('.source-text')
@@ -100,7 +110,17 @@ function restart() {
 
   nodeG.append('circle')
     .attr('class', 'node')
-    .attr('r', function(d) { return d.r; });
+    .attr('r', function(d) { return d.r; })
+    .attr('style', function(d) {
+      if (d.dashed) {
+        return 'fill:#ccc!important';
+      }
+    })
+    .attr('stroke-dasharray', function(d) {
+      if (d.dashed) {
+        return '' + [d.r / 4, d.r / 4];
+      }
+    });
 
   // show node IDs
   nodeG.append('text')
@@ -111,7 +131,17 @@ function restart() {
     .text(function(d) { return d.name; });
 
   node.select('circle')
-    .attr('r', function(d) { return d.r; });
+    .attr('r', function(d) { return d.r; })
+    .attr('style', function(d) {
+      if (d.dashed) {
+        return 'fill:#ccc!important';
+      }
+    })
+    .attr('stroke-dasharray', function(d) {
+      if (d.dashed) {
+        return '' + [d.r / 4, d.r / 4];
+      }
+    });
 
   node.select('.id')
     .attr('y', function(d) { return -d.r - 2; })
