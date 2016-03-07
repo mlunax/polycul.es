@@ -1,4 +1,6 @@
-body {
+body,
+input,
+button {
     font-family: "Ubuntu Mono", monospace;
 }
 
@@ -12,6 +14,11 @@ a:hover {
 
 .hidden {
   display: none;
+}
+
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
 }
 
 #graph {
@@ -34,6 +41,12 @@ a:hover {
     right: 1em;
 }
 
+#graph .instructions {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+}
+
 #graph .link line {
   stroke: rgba(0,0,0,0.25);
   cursor: pointer;
@@ -41,6 +54,12 @@ a:hover {
 
 #graph .link .meaning {
   fill: #88F;
+}
+
+#graph .node {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
 #graph .node circle {

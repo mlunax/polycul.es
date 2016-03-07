@@ -1,9 +1,15 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<p>This is how polycul.es works: blah.</p>
+<div class="wrapper">
+    <p>How would you picture your poly relationship?</p>
 
-<iframe src="/embed/1" width="980" height="520" style="border:0;"></iframe>
+    <iframe src="/embed/1" width="980" height="520" style="border:0;"></iframe>
 
-<p>Inspired by <a href="http://bl.ocks.org/makyo/6754267">this</a> and <a href="http://bl.ocks.org/rkirsling/5001347">this</a>.  Fork me on <a href="https://github.com/makyo/polycul.es">GitHub</a>.</p>
+    <p>With polycul.es, you can visualize your polyamorous relationship with a force directed graph.  The more strongly related two people are, the closer together they appear.  Each relationship can be annotated with text describing it.</p>
+
+    <p>Relationships change.  When yours does, you can view your old visualization, then click inherit, and it will create a new visualization based off the old one.</p>
+
+    <p>Inspired by <a href="http://bl.ocks.org/makyo/6754267">this</a> and <a href="http://bl.ocks.org/rkirsling/5001347">this</a>.  Fork me on <a href="https://github.com/makyo/polycul.es">GitHub</a>.</p>
+</div>
 {% endblock %}

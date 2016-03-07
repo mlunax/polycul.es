@@ -6,8 +6,13 @@
 
 {% block content %}
 <div id="graph" class="build">
-    <p>Hold ctrl to drag</p>
-    <p>Click to select</p>
+    <div class="instructions">
+        <p>Click to create nodes</p>
+        <p>Click and drag to create links</p>
+        <p>Hold ctrl to drag nodes</p>
+        <p>Click to select and edit<br />nodes and links</p>
+        <p><a href="https://github.com/makyo/polycul.es/issues">Known bugs</a></p>
+    </div>
     <div id="node-menu" class="menu">
         <p>Name: <input type="text" id="edit-node-name" /></p>
         <p>Radius: <input type="range" min="2" max="20" id="edit-node-r" /></p>
@@ -25,9 +30,9 @@
 <script src="/static/polycule.js" charset="utf-8"></script>
 <script src="/static/build.js" charset="utf-8"></script>
 
-<form action="/save" method="post">
-    <textarea name="graph" id="graph-field">{{ inherited }}</textarea>
+<form action="/save" method="post" style="text-align: center; margin-top: 1em;">
+    <textarea name="graph" id="graph-field" class="hidden">{{ inherited }}</textarea>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
-    <input type="submit" />
+    <button type="submit">Save</button>
 </form>
 {% endblock %}

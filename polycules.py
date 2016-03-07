@@ -5,8 +5,8 @@ import sqlite3
 from contextlib import closing
 from flask import (
     abort,
-    g,
     Flask,
+    g,
     redirect,
     render_template,
     request,

@@ -11,5 +11,5 @@
 </script>
 <script src="/static/polycule.js" charset="utf-8"></script>
 
-<p style="text-align: center">Embed: <input type="text" value="&lt;iframe src=&quot;/embed/1&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" /></p>
+<p style="text-align: center">Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{id}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" /> - <button onclick="window.location = '/inherit/{{id}}';">Inherit</button></p>
 {% endblock %}
