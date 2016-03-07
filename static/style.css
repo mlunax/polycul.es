@@ -1,7 +1,72 @@
 body {
-    font-family: "Ubuntu mono", monospace;
+    font-family: "Ubuntu Mono", monospace;
 }
 
-a {
+a,
+a:visited,
+a:active,
+a:hover {
     text-decoration: none;
+    color: #aaa;
+}
+
+.hidden {
+  display: none;
+}
+
+#graph {
+    position: relative;
+    border: 2px solid #eee;
+    box-shadow: 5px 5px 10px #eee;
+    width: 960px;
+    margin: 0 auto;
+}
+
+#graph p {
+    color: #888;
+    margin-left: 1em;
+}
+
+#graph .menu {
+    display: none;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+#graph .link line {
+  stroke: rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+#graph .link .meaning {
+  fill: #88F;
+}
+
+#graph .node circle {
+    fill: #888;
+}
+
+#graph .node text {
+  pointer-events: none;
+  font: 10px "Ubuntu Mono", monospace;
+}
+
+#graph.build {
+    cursor: crosshair;
+}
+
+#graph.build .node {
+    cursor: pointer;
+}
+
+#graph.build .node.selected circle {
+    stroke: #44f;
+    stroke-width: 2px;
+    fill: #88f;
+}
+
+#graph.build .dragline {
+    stroke: #44f;
+    stroke-width: 2px;
 }

@@ -2,15 +2,31 @@
 
 {% block head %}
 <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="/static/polycule.js" charset="utf-8"></script>
-<script src="/static/build.js" charset="utf-8"></script>
 {% endblock %}
 
 {% block content %}
+<div id="graph" class="build">
+    <p>Hold ctrl to drag</p>
+    <p>Click to select</p>
+    <div id="node-menu" class="menu">
+        <p>Name: <input type="text" id="edit-node-name" /></p>
+        <p>Radius: <input type="range" min="2" max="20" id="edit-node-r" /></p>
+    </div>
+    <div id="link-menu" class="menu">
+        <p>Center text: <input type="text" id="edit-center-text" /></p>
+        <p>Text near <span id="source-name"></span>: <input type="text" id="edit-source-text" /></p>
+        <p>Text near <span id="target-name"></span>: <input type="text" id="edit-target-text" /></p>
+        <p>Strength: <input id="edit-strength" type="range" min="1" max="10" /></p>
+    </div>
+</div>
+<script type="text/javascript">
+    var graph = {{ inherited }};
+</script>
+<script src="/static/polycule.js" charset="utf-8"></script>
+<script src="/static/build.js" charset="utf-8"></script>
+
 <form action="/save" method="post">
-    <textarea name="graph">
-        {{ inherited }}
-    </textarea>
+    <textarea name="graph" id="graph-field">{{ inherited }}</textarea>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
     <input type="submit" />
 </form>

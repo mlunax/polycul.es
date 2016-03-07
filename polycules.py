@@ -106,7 +106,12 @@ def inherit_polycule(polycule_id):
 @app.route('/create')
 def create_polycule():
     """ Create a new, blank polycule. """
-    return render_template('create_polycule.jinja2')
+    graph = """{
+        "lastId": 0,
+        "nodes": [],
+        "links": []
+    }"""
+    return render_template('create_polycule.jinja2', inherited=graph)
 
 
 @app.route('/save', methods=['POST'])

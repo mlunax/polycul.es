@@ -1,11 +1,14 @@
 <html>
     <head>
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script src="/static/polycule.js" charset="utf-8"></script>
         <link href='https://fonts.googleapis.com/css?family=Ubuntu+mono' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="/static/style.css" />
     </head>
     <body>
-        {{ graph }}
+        <div id="graph"></div>
+        <script type="text/javascript">
+            var graph = {{ graph }};
+        </script>
+        <script src="/static/polycule.js" charset="utf-8"></script>
     </body>
 </html>
