@@ -264,7 +264,15 @@ function editNode(d) {
         return node.id === d.id;
       })[0].r = this.value;
       restart();
-    })
+    });
+  nodeMenu.select('#edit-node-dashed')
+    .property('checked', d.dashed)
+    .on('change', function() {
+      window.graph.nodes.filter(function(link) {
+        return link === d;
+      })[0].dashed = d3.select(this).property('checked');
+      restart();
+    });
 }
 
 function editLink(d) {
@@ -280,7 +288,7 @@ function editLink(d) {
         return link === d;
       })[0].centerText = this.value;
       restart();
-    })
+    });
   linkMenu.select('#edit-source-text')
     .attr('value', d.sourceText ? d.sourceText : '')
     .on('keyup', function() {
@@ -288,7 +296,7 @@ function editLink(d) {
         return link === d;
       })[0].sourceText = this.value;
       restart();
-    })
+    });
   linkMenu.select('#edit-target-text')
     .attr('value', d.targetText ? d.targetText : '')
     .on('keyup', function() {
@@ -296,7 +304,7 @@ function editLink(d) {
         return link === d;
       })[0].targetText = this.value;
       restart();
-    })
+    });
   linkMenu.select('#edit-strength')
     .attr('value', d.strength)
     .on('input', function() {
@@ -304,7 +312,15 @@ function editLink(d) {
         return link === d;
       })[0].strength = this.value;
       restart();
-    })
+    });
+  linkMenu.select('#edit-link-dashed')
+    .property('checked', d.dashed)
+    .on('change', function() {
+      window.graph.links.filter(function(link) {
+        return link === d;
+      })[0].dashed = d3.select(this).property('checked');
+      restart();
+    });
 }
 
 svg.on('mousedown', mousedown)
