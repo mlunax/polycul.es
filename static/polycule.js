@@ -32,7 +32,7 @@ var force = d3.layout.force()
     .nodes(window.graph.nodes)
     .links(window.graph.links)
     .size([width, height])
-    .linkDistance(150)
+    .linkDistance(function(d) { return Math.log(3 / d.strength * 10) * 50; })
     .charge(-500)
     .on('tick', tick)
 
@@ -82,7 +82,12 @@ function restart() {
 
   path.select('line')
     .attr('stroke-width', function(d) { return d.strength; });
-
+  path.select('.center-text')
+    .text(function(d) { return d.centerText; });
+  path.select('.source-text')
+    .text(function(d) { return d.sourceText; });
+  path.select('.target-text')
+    .text(function(d) { return d.targetText; });
 
   // circle (node) group
   // NB: the function arg is crucial here! nodes are known by id, not by index!

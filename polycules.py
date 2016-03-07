@@ -7,7 +7,6 @@ from flask import (
     abort,
     g,
     Flask,
-    request,
     redirect,
     render_template,
     request,
@@ -75,7 +74,7 @@ def view_polycule(polycule_id):
     if cur.arraysize != 1:
         abort(404)
     graph = cur.fetchone()[0]
-    return render_template('view_polycule.jinja2', graph=graph)
+    return render_template('view_polycule.jinja2', graph=graph, id=polycule_id)
 
 
 @app.route('/embed/<int:polycule_id>')

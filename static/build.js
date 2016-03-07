@@ -270,7 +270,7 @@ function editNode(d) {
 function editLink(d) {
   d3.select('#node-menu').style('display', 'none');
   var linkMenu = d3.select('#link-menu');
-  linkMenu.style('display: block');
+  linkMenu.style('display', 'block');
   linkMenu.select('#source-name').text(d.source.name);
   linkMenu.select('#target-name').text(d.target.name);
   linkMenu.select('#edit-center-text')
