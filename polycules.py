@@ -71,10 +71,10 @@ def view_polycule(polycule_id):
     """ View a polycule. """
     cur = g.db.execute('select graph from polycules where id = ?',
         [polycule_id])
-    if cur.arraysize != 1:
+    graph = cur.fetchone()
+    if graph is None:
         abort(404)
-    graph = cur.fetchone()[0]
-    return render_template('view_polycule.jinja2', graph=graph, id=polycule_id)
+    return render_template('view_polycule.jinja2', graph=graph[0], id=polycule_id)
 
 
 @app.route('/embed/<int:polycule_id>')
@@ -82,10 +82,10 @@ def embed_polycule(polycule_id):
     """ View just a polycule for embedding in an iframe. """
     cur = g.db.execute('select graph from polycules where id = ?',
         [polycule_id])
-    if cur.arraysize != 1:
+    graph = cur.fetchone()
+    if graph is None:
         abort(404)
-    graph = cur.fetchone()[0]
-    return render_template('embed_polycule.jinja2', graph=graph)
+    return render_template('embed_polycule.jinja2', graph=graph[0])
 
 
 @app.route('/inherit/<int:polycule_id>')
@@ -96,10 +96,10 @@ def inherit_polycule(polycule_id):
     """
     cur = g.db.execute('select graph from polycules where id = ?',
         [polycule_id])
-    if cur.arraysize != 1:
+    graph = cur.fetchone()
+    if graph is None:
         abort(404)
-    graph = cur.fetchone()[0]
-    return render_template('create_polycule.jinja2', inherited=graph)
+    return render_template('create_polycule.jinja2', inherited=graph[0])
 
 
 @app.route('/create')
