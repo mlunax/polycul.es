@@ -1,0 +1,14 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="wrapper">
+    <form method="post"{% if polycule_id %} action="/{{polycule_id}}"{% endif %}>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+        <label for="id_view_pass">View Password</label>
+        <input type="password" name="view_pass" id="id_view_pass" />
+        <em>Required</em>
+        <p class="help-block">A password is required to view this polycule</p>
+        <button type="submit">View polycule</button>
+    </form>
+</div>
+{% endblock %}

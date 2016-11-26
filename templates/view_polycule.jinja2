@@ -7,9 +7,21 @@
 {% block content %}
 <div id="graph"></div>
 <script type="text/javascript">
-    var graph = {{ graph }};
+    var graph = {{ polycule.graph }};
 </script>
 <script src="/static/polycule.js" charset="utf-8"></script>
 
-<p style="text-align: center">Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{id}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" /> - <button onclick="window.location = '/inherit/{{id}}';">Inherit</button></p>
+<p style="text-align: center">
+    Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{id}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" />
+    - <button onclick="window.location = '/inherit/{{polycule.id}}';">Inherit</button>
+</p>
+{% if polycule.delete_pass %}
+<form method="post" action="/delete/{{polycule.id}}">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+    <label for="id_delete_pass">Delete password</label>
+    <input type="password" name="delete_pass" id="id_delete_pass" />
+    <button type="submit">Delete polycule</button>
+    <p class="help-block">This cannot be undone</p>
+</form>
+{% endif %}
 {% endblock %}

@@ -329,3 +329,8 @@ svg.on('mousedown', mousedown)
 d3.select(window)
   .on('keydown', keydown)
   .on('keyup', keyup);
+d3.select('.expand-help').on('click', function(e) {
+  d3.event.preventDefault();
+  var body = d3.select('.instructions .body');
+  body.classed('hidden', !body.classed('hidden'));
+});
