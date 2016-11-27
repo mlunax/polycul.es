@@ -7,14 +7,17 @@ function attachEvents() {
         return;
       }
       // enlarge target node
-      d3.select(this).attr('transform', 'scale(1.1)');
+      d3.select(this)
+        .attr('transform', d3.select(this).attr('transform') + ' scale(1.1)');
     })
     .on('mouseout', function(d) {
       if (!mousedown_node || d === mousedown_node) {
         return;
       }
       // unenlarge target node
-      d3.select(this).attr('transform', '');
+      d3.select(this)
+        .attr('transform',
+          d3.select(this).attr('transform').replace(' scale(1.1)', ''));
     })
     .on('mousedown', function(d) {
       if (d3.event.ctrlKey) {
@@ -70,21 +73,7 @@ function attachEvents() {
           source = mousedown_node;
           target = mouseup_node;
 
-      var link = window.graph.links.filter(function(l) {
-        return (l.source === source && l.target === target) ||
-          (l.source === target && l.target === source);
-      })[0];
-
-      if (link) {
-        return;
-      } else {
-        link = {
-          source: source,
-          target: target,
-          strength: 10
-        };
-        window.graph.links.push(link);
-      }
+      var link = addLink(source, target)
 
       // select new link
       selected_link = link;
@@ -144,23 +133,50 @@ function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
 
-  if (d3.event.ctrlKey || mousedown_node || mousedown_link) {
+  if (d3.event.ctrlKey || d3.event.toElement.nodeName !== 'svg') {
     return;
   }
 
   // insert new node at point
-  var point = d3.mouse(this),
-      node = {
-        id: ++window.graph.lastId,
-        name: 'New ' + window.graph.lastId,
-        x: point[0],
-        y: point[1],
-        r: 12
-      };
-  window.graph.nodes.push(node);
+  var point = d3.mouse(this)
+  addNode(point);
 
   restart();
   attachEvents();
+}
+
+function addNode(point) {
+  var newNode = {
+    id: ++window.graph.lastId,
+    name: 'New ' + window.graph.lastId,
+    x: width / 2,
+    y: height / 2,
+    r: 12
+  };
+  if (point) {
+    newNode.x = point[0];
+    newNode.y = point[1];
+  }
+  window.graph.nodes.push(newNode);
+  return newNode;
+}
+
+function addLink(source, target) {
+  var link = window.graph.links.filter(function(l) {
+    return (l.source === source && l.target === target) ||
+      (l.source === target && l.target === source);
+  })[0];
+
+  if (link) {
+    return link;
+  } else {
+    link = {
+      source: source,
+      target: target,
+      strength: 10
+    };
+    window.graph.links.push(link);
+  }
 }
 
 function mousemove() {
@@ -214,23 +230,6 @@ function keydown() {
     node.call(force.drag);
     svg.classed('ctrl', true);
   }
-
-  if(!selected_node && !selected_link) {
-    return;
-  }
-  if (d3.event.keyCode === 8 || d3.event.keyCode === 46) {
-    d3.event.preventDefault();
-    if (selected_node) {
-      window.graph.nodes.splice(window.graph.nodes.indexOf(selected_node), 1);
-      spliceLinksForNode(selected_node);
-    } else if (selected_link) {
-      window.graph.links.splice(window.graph.links.indexOf(selected_link), 1);
-    }
-    selected_link = null;
-    selected_node = null;
-    restart();
-    attachEvents();
-  }
 }
 
 function keyup() {
@@ -272,6 +271,19 @@ function editNode(d) {
         return link === d;
       })[0].dashed = d3.select(this).property('checked');
       restart();
+    });
+  nodeMenu.select('#delete-node')
+    .on('click', function() {
+      if (selected_node) {
+        window.graph.nodes
+          .splice(window.graph.nodes.indexOf(selected_node), 1);
+        spliceLinksForNode(selected_node);
+      }
+      selected_link = null;
+      selected_node = null;
+      restart();
+      attachEvents();
+      nodeMenu.style('display', 'none');
     });
 }
 
@@ -321,6 +333,35 @@ function editLink(d) {
       })[0].dashed = d3.select(this).property('checked');
       restart();
     });
+  linkMenu.select('#delete-link')
+    .on('click', function() {
+      if (selected_link) {
+        window.graph.links
+          .splice(window.graph.links.indexOf(selected_link), 1);
+      }
+      selected_link = null;
+      selected_node = null;
+      restart();
+      attachEvents();
+      linkMenu.style('display', 'none');
+    });
+}
+
+function addTemplate(template) {
+  var parts = template.split(';');
+  var nodes = parts[0].split(',');
+  var links = parts[1].split(',');
+  var builtNodes = {};
+  nodes.forEach(function(d) {
+    builtNodes[d] = addNode(null);
+  });
+  links.forEach(function(d) {
+    var linkParts = d.split('-');
+    addLink(builtNodes[linkParts[0]], builtNodes[linkParts[1]]);
+  })
+
+  restart();
+  attachEvents();
 }
 
 svg.on('mousedown', mousedown)
