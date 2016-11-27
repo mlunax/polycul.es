@@ -20,6 +20,7 @@
         <p>Name: <input type="text" id="edit-node-name" /></p>
         <p>Radius: <input type="range" min="2" max="20" id="edit-node-r" /></p>
         <p>Dashed: <input id="edit-node-dashed" type="checkbox" /></p>
+        <p>Delete: <button id="delete-node">Delete node</button></p>
     </div>
     <div id="link-menu" class="menu">
         <p>Center text: <input type="text" id="edit-center-text" /></p>
@@ -27,6 +28,79 @@
         <p>Text near <span id="target-name"></span>: <input type="text" id="edit-target-text" /></p>
         <p>Strength: <input id="edit-strength" type="range" min="1" max="10" /></p>
         <p>Dashed: <input id="edit-link-dashed" type="checkbox" /></p>
+        <p>Delete: <button id="delete-link">Delete link</button></p>
+    </div>
+    <div class="templates">
+        <p>Templates:</p>
+        <svg class="template" onclick="addTemplate('a,b;a-b')" width="50" height="50">
+            <circle cx="5" cy="25" r="5" />
+            <circle cx="45" cy="25" r="5" />
+            <line x1="5" y1="25" x2="45" y2="25" />
+            <text x="25" y="48">Couple</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c;a-b,a-c')" width="50" height="50">
+            <circle cx="10" cy="20" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <line x1="10" y1="20" x2="40" y2="5" />
+            <line x1="10" y1="20" x2="40" y2="35" />
+            <text x="25" y="48">Vee</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c;a-b,a-c,b-c')" width="50" height="50">
+            <circle cx="10" cy="20" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <line x1="10" y1="20" x2="40" y2="5" />
+            <line x1="10" y1="20" x2="40" y2="35" />
+            <line x1="40" y1="10" x2="40" y2="35" />
+            <text x="25" y="48">Triad</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c,d;a-b,a-c,a-d')" width="50" height="50">
+            <circle cx="10" cy="5" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <circle cx="10" cy="35" r="5" />
+            <line x1="10" y1="5" x2="40" y2="5" />
+            <line x1="10" y1="5" x2="40" y2="35" />
+            <line x1="10" y1="5" x2="10" y2="35" />
+            <text x="25" y="48">Branches</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c,d;a-b,a-c,b-d,c-d')" width="50" height="50">
+            <circle cx="10" cy="5" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <circle cx="10" cy="35" r="5" />
+            <line x1="10" y1="5" x2="40" y2="5" />
+            <line x1="10" y1="5" x2="10" y2="35" />
+            <line x1="40" y1="5" x2="40" y2="35" />
+            <line x1="40" y1="35" x2="10" y2="35" />
+            <text x="25" y="48">Cycle</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c,d;a-b,a-c,a-d,b-d,c-d')" width="50" height="50">
+            <circle cx="10" cy="5" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <circle cx="10" cy="35" r="5" />
+            <line x1="10" y1="5" x2="40" y2="5" />
+            <line x1="10" y1="5" x2="10" y2="35" />
+            <line x1="40" y1="5" x2="40" y2="35" />
+            <line x1="40" y1="35" x2="10" y2="35" />
+            <line x1="10" y1="5" x2="40" y2="35" />
+            <text x="25" y="48">???</text>
+        </svg>
+        <svg class="template" onclick="addTemplate('a,b,c,d;a-b,a-c,a-d,b-d,b-c,c-d')" width="50" height="50">
+            <circle cx="10" cy="5" r="5" />
+            <circle cx="40" cy="5" r="5" />
+            <circle cx="40" cy="35" r="5" />
+            <circle cx="10" cy="35" r="5" />
+            <line x1="10" y1="5" x2="40" y2="5" />
+            <line x1="10" y1="5" x2="10" y2="35" />
+            <line x1="40" y1="5" x2="40" y2="35" />
+            <line x1="40" y1="35" x2="10" y2="35" />
+            <line x1="10" y1="5" x2="40" y2="35" />
+            <line x1="10" y1="35" x2="40" y2="5" />
+            <text x="25" y="48">Family</text>
+        </svg>
     </div>
 </div>
 <script type="text/javascript">

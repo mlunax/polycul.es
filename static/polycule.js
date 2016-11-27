@@ -47,11 +47,27 @@ var path = svg.append('g').selectAll('.link'),
 
 // update force layout (called automatically each iteration)
 function tick() {
+  if (!drag_line.classed('hidden')) {
+    return;
+  }
   path.select('line')
     .attr('x1', function(d) { return d.source.x; })
     .attr('y1', function(d) { return d.source.y; })
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; })
+  path.select('.source-text')
+    .attr('dx', function(d) { return d.source.x})
+    .attr('dy', function(d) { return d.source.y + d.source.r * 2});
+  path.select('.target-text')
+    .attr('dx', function(d) { return d.target.x})
+    .attr('dy', function(d) { return d.target.y + d.target.r * 2});
+  path.select('.center-text')
+    .attr('dx', function(d) {
+        return (d.source.x + ((d.target.x - d.source.x) / 2));
+    })
+    .attr('dy', function(d) {
+        return (d.source.y + ((d.target.y - d.source.y) / 2)) - 10;
+    });
   node.attr('transform', function(d) {
     return 'translate(' + d.x + ',' + d.y + ')';
   });
@@ -82,6 +98,12 @@ function restart() {
         return '' + [d.strength / 1.5, d.strength / 1.5];
       }
     });
+  pathG.append('text')
+    .attr('class', 'center-text meaning hidden');
+  pathG.append('text')
+    .attr('class', 'source-text meaning hidden');
+  pathG.append('text')
+    .attr('class', 'target-text meaning hidden');
   // remove old links
   path.exit().remove();
 
@@ -98,6 +120,14 @@ function restart() {
     .text(function(d) { return d.sourceText; });
   path.select('.target-text')
     .text(function(d) { return d.targetText; });
+  path.on('mouseover', function(d) {
+      d3.select(this).selectAll('.meaning')
+        .classed('hidden', false);
+    })
+    .on('mouseout', function(d) {
+      d3.select(this).selectAll('.meaning')
+        .classed('hidden', true);
+    });
 
   // circle (node) group
   // NB: the function arg is crucial here! nodes are known by id, not by index!
