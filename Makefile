@@ -7,4 +7,9 @@ deps: bin/python
 
 .PHONY: run
 run:
-	bin/python polycules.py
+	python polycules.py
+
+.PHONY: test
+test:
+	flake8 --config=.flake8
+	nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model
