@@ -1,27 +1,36 @@
 import bcrypt
+import hashlib
 
 
 class Polycule(object):
     def __init__(self, db=None, id=None, graph=None, view_pass=None,
-                 delete_pass=None):
+                 delete_pass=None, graph_hash=None):
         self._db = db
         self.id = id
         self.graph = graph
         self.view_pass = view_pass
         self.delete_pass = delete_pass
+        self.graph_hash = graph_hash
 
     @classmethod
-    def get(cls, db, id, password, force=False):
-        result = db.execute('select * from polycules where id = ?', [id])
-        graph = result.fetchone()
-        if graph is None:
+    def get(cls, db, graph_hash, password, force=False):
+        if len(graph_hash) < 7:
             return None
+        graph_hash = graph_hash + '_' * (40 - len(graph_hash))
+        result = db.execute('select * from polycules where hash like ?', [
+            graph_hash
+        ])
+        graph = result.fetchall()
+        if len(graph) != 1:
+            return None
+        graph = graph[0]
         polycule = Polycule(
             db=db,
             id=graph[0],
             graph=graph[1],
             view_pass=graph[2],
-            delete_pass=graph[3])
+            delete_pass=graph[3],
+            graph_hash=graph[4])
         if not force and (
                 polycule.view_pass is not None and
                 not bcrypt.checkpw(password.encode('utf-8'),
@@ -48,13 +57,17 @@ class Polycule(object):
             raise Polycule.IdenticalGraph
         cur = db.cursor()
         result = cur.execute('''insert into polycules
-            (graph, view_pass, delete_pass) values (?, ?, ?)''', [
+            (graph, view_pass, delete_pass, hash) values (?, ?, ?, ?)''', [
                 graph,
                 view_pass,
                 delete_pass,
+                hashlib.sha1(graph.encode('utf-8')).hexdigest(),
             ])
         db.commit()
-        return Polycule.get(db, result.lastrowid, None, force=True)
+        new_hash = db.execute('select hash from polycules where id = ?', [
+            result.lastrowid
+        ]).fetchone()[0]
+        return Polycule.get(db, new_hash, None, force=True)
 
     def delete(self, password, force=False):
         if not force and not bcrypt.checkpw(password.encode('utf-8'),

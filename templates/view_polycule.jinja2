@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<p class="wrapper"><small>Polycule {{polycule.graph_hash}}: <a href="/{{polycule.graph_hash}}">Full link</a> &bullet; <a href="/{{polycule.graph_hash[:7]}}">Short link</a></small></p>
 <div id="graph"></div>
 <script type="text/javascript">
     var graph = {{ polycule.graph }};
@@ -12,11 +13,11 @@
 <script src="/static/polycule.js" charset="utf-8"></script>
 
 <p style="text-align: center">
-    Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{id}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" />
-    - <button onclick="window.location = '/inherit/{{polycule.id}}';">Inherit</button>
+    Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{polycule.graph_hash}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" />
+    - <a href="/inherit/{{polycule.graph_hash}}">Inherit</a>
 </p>
 {% if polycule.delete_pass %}
-<form method="post" action="/delete/{{polycule.id}}">
+<form method="post" action="/delete/{{polycule.graph_hash}}">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
     <label for="id_delete_pass">Delete password</label>
     <input type="password" name="delete_pass" id="id_delete_pass" />

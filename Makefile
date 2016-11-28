@@ -12,4 +12,4 @@ run:
 .PHONY: test
 test:
 	flake8 --config=.flake8
-	nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model
+	nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model,migrations.hashify
