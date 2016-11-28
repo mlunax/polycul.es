@@ -12,6 +12,7 @@ from flask import (
     session,
 )
 
+from migrations import hashify
 from model import Polycule
 
 # Config
@@ -35,8 +36,17 @@ def migrate():
         'migrations')
     with closing(connect_db()) as db:
         for filename in os.listdir(migrations_dir):
+            if filename[-2:] == 'py':
+                continue
             with open(os.path.join(migrations_dir, filename), 'rb') as f:
-                db.cursor().execute(f.read())
+                try:
+                    db.cursor().execute(f.read())
+                except Exception as e:
+                    print('Got {} - maybe already applied?'.format(e))
+                finally:
+                    pass
+            if filename[:3] == '003':
+                hashify.migrate(db)
 
 
 def generate_csrf_token():
@@ -71,7 +81,15 @@ def front():
     return render_template('front.jinja2')
 
 
-@app.route('/<int:polycule_id>', methods=['GET', 'POST'])
+@app.route('/example')
+def example():
+    """ View an example polycule. """
+    result = g.db.execute('select * from polycules where id = 1')
+    graph = result.fetchone()[1]
+    return render_template('embed_polycule.jinja2', graph=graph)
+
+
+@app.route('/<string:polycule_id>', methods=['GET', 'POST'])
 def view_polycule(polycule_id):
     """ View a polycule. """
     try:
@@ -84,7 +102,7 @@ def view_polycule(polycule_id):
     return render_template('view_polycule.jinja2', polycule=polycule)
 
 
-@app.route('/embed/<int:polycule_id>')
+@app.route('/embed/<string:polycule_id>')
 def embed_polycule(polycule_id):
     """ View just a polycule for embedding in an iframe. """
     polycule = Polycule.get(g.db, polycule_id, request.form.get('view_pass'))
@@ -93,7 +111,7 @@ def embed_polycule(polycule_id):
     return render_template('embed_polycule.jinja2', graph=polycule.graph)
 
 
-@app.route('/inherit/<int:polycule_id>', methods=['GET', 'POST'])
+@app.route('/inherit/<string:polycule_id>', methods=['GET', 'POST'])
 def inherit_polycule(polycule_id):
     """
     Take a given polycule and enter create mode, with that polycule's contents
@@ -133,10 +151,10 @@ def save_polycule():
     except Polycule.IdenticalGraph:
         return render_template('error.jinja2', error='An identical polycule '
                                'to the one you submitted already exists!')
-    return redirect('/{}'.format(polycule.id))
+    return redirect('/{}'.format(polycule.graph_hash))
 
 
-@app.route('/delete/<int:polycule_id>', methods=['POST'])
+@app.route('/delete/<string:polycule_id>', methods=['POST'])
 def delete_polycule(polycule_id):
     polycule = Polycule.get(g.db, polycule_id, None, force=True)
     if polycule is None:
