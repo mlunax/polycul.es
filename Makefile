@@ -7,9 +7,9 @@ deps: bin/python
 
 .PHONY: run
 run:
-	python polycules.py
+	bin/python polycules.py
 
 .PHONY: test
 test:
-	flake8 --config=.flake8
-	nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model,migrations.hashify
+	bin/flake8 --config=.flake8
+	bin/nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model,migrations.hashify
