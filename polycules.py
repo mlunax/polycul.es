@@ -167,4 +167,5 @@ def delete_polycule(polycule_id):
 
 
 if __name__ == '__main__':
+    migrate()
     app.run()
