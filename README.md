@@ -5,3 +5,12 @@
 [![polycul.es](https://img.shields.io/website-up-down-green-red/https/polycul.es.svg)](https://polycul.es)
 
 Graphing polyamorous relationships with force directed layouts.
+
+## Development
+
+You will need to install Python and virtualenv using whatever package manager your operating system uses.  Then you can setup, run and test the application as follows:
+
+1. Create a new virtualenv environment by running `make`
+2. Install dependencies by running `make deps`
+3. Run the application by running `make run` and opening http://localhost:5000/ in a browser
+4. Run the tests by running `make test`

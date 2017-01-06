@@ -65,4 +65,5 @@ target/
 dev*.db
 pip-selfcheck.json
 bin
+man
 include
