@@ -167,7 +167,7 @@ def delete_polycule(polycule_id):
     return redirect('/')
 
 
-@app.route('/export/<string:polycule_id>', methods=['GET'])
+@app.route('/export/<string:polycule_id>', methods=['GET', 'POST'])
 def choose_export(polycule_id):
     try:
         polycule = Polycule.get(g.db, polycule_id,
