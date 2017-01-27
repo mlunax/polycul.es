@@ -15,6 +15,7 @@
 <p style="text-align: center">
     Embed: <input type="text" onclick="this.setSelectionRange(0, this.value.length)" value="&lt;iframe src=&quot;http://polycul.es/embed/{{polycule.graph_hash}}&quot; width=&quot;980&quot; height=&quot;520&quot; style=&quot;border:0;&quot;&gt;&lt;/iframe&gt;" size="75" />
     - <a href="/inherit/{{polycule.graph_hash}}">Inherit</a>
+    - <a href="/export/{{polycule.graph_hash}}">Export</a>
 </p>
 {% if polycule.delete_pass %}
 <form method="post" action="/delete/{{polycule.graph_hash}}">

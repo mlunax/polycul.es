@@ -5,6 +5,7 @@ from contextlib import closing
 
 from flask import (
     Flask,
+    Response,
     g,
     redirect,
     render_template,
@@ -164,6 +165,75 @@ def delete_polycule(polycule_id):
     except Polycule.PermissionDenied:
         return render_template('view_auth.jinja2', polycule_id=polycule_id)
     return redirect('/')
+
+
+@app.route('/export/<string:polycule_id>', methods=['GET'])
+def choose_export(polycule_id):
+    try:
+        polycule = Polycule.get(g.db, polycule_id,
+                                request.form.get('view_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('view_auth.jinja2')
+    if polycule is None:
+        return render_template('error.jinja2', error='Polycule not found :(')
+    return render_template('choose_export.jinja2', polycule=polycule)
+
+
+@app.route('/export/<string:polycule_id>/polycule.dot',
+           methods=['GET', 'POST'])
+def export_dot(polycule_id):
+    try:
+        polycule = Polycule.get(g.db, polycule_id,
+                                request.form.get('view_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('view_auth.jinja2')
+    if polycule is None:
+        return render_template('error.jinja2', error='Polycule not found :(')
+    labels = request.args.get('link-labels', '') != ''
+    return Response(polycule.as_dot(edge_labels=labels), mimetype='text/plain')
+
+
+@app.route('/export/<string:polycule_id>/polycule.svg',
+           methods=['GET', 'POST'])
+def export_svg(polycule_id):
+    try:
+        polycule = Polycule.get(g.db, polycule_id,
+                                request.form.get('view_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('view_auth.jinja2')
+    if polycule is None:
+        return render_template('error.jinja2', error='Polycule not found :(')
+    labels = request.args.get('link-labels', '') != ''
+    style = request.args.get('style', '') != ''
+    embed = request.args.get('embed', '') != ''
+    return Response(polycule.as_svg(
+        edge_labels=labels,
+        include_style=style,
+        embed=embed), mimetype='image/svg+xml')
+
+
+@app.route('/export/<string:polycule_id>/polycule.png',
+           methods=['GET', 'POST'])
+def export_png(polycule_id):
+    try:
+        polycule = Polycule.get(g.db, polycule_id,
+                                request.form.get('view_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('view_auth.jinja2')
+    if polycule is None:
+        return render_template('error.jinja2', error='Polycule not found :(')
+    labels = request.args.get('link-labels', '') != ''
+    source = request.args.get('from', 'dot')
+    if source == 'dot':
+        png = polycule.as_png_from_dot(edge_labels=labels)
+    elif source == 'svg':
+        style = request.args.get('style', '') != ''
+        embed = request.args.get('embed', '') != ''
+        png = polycule.as_png_from_svg(
+            edge_labels=labels,
+            include_style=style,
+            embed=embed)
+    return Response(png, mimetype='image/png')
 
 
 if __name__ == '__main__':
