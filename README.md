@@ -8,7 +8,7 @@ Graphing polyamorous relationships with force directed layouts.
 
 ## Development
 
-You will need to install Python and virtualenv using whatever package manager your operating system uses.  Then you can setup, run and test the application as follows:
+You will need to install Python, virtualenv, and GraphViz using whatever package manager your operating system uses.  Then you can setup, run and test the application as follows:
 
 1. Create a new virtualenv environment by running `make`
 2. Install dependencies by running `make deps`
