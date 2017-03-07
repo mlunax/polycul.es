@@ -248,24 +248,24 @@ function editNode(d) {
   d3.select('#link-menu').style('display', 'none');
   var nodeMenu = d3.select('#node-menu');
   nodeMenu.style('display', 'block');
+  document.getElementById('edit-node-name').value = d.name;
   nodeMenu.select('#edit-node-name')
-    .attr('value', d.name)
     .on('keyup', function() {
       window.graph.nodes.filter(function(node) {
         return node === d;
       })[0].name = this.value;
       restart();
     });
+  document.getElementById('edit-node-r').value = d.r;
   nodeMenu.select('#edit-node-r')
-    .attr('value', d.r)
     .on('input', function() {
       window.graph.nodes.filter(function(node) {
         return node.id === d.id;
       })[0].r = this.value;
       restart();
     });
+  document.getElementById('edit-node-dashed').checked = d.dashed;
   nodeMenu.select('#edit-node-dashed')
-    .property('checked', d.dashed)
     .on('change', function() {
       window.graph.nodes.filter(function(link) {
         return link === d;
