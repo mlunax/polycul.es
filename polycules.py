@@ -106,7 +106,8 @@ def view_polycule(polycule_id):
 @app.route('/embed/<string:polycule_id>')
 def embed_polycule(polycule_id):
     """ View just a polycule for embedding in an iframe. """
-    polycule = Polycule.get(g.db, polycule_id, request.form.get('view_pass'))
+    polycule = Polycule.get(g.db, polycule_id,
+                            request.form.get('view_pass', b''))
     if polycule is None:
         return render_template('error.jinja2', error='Polycule not found :(')
     return render_template('embed_polycule.jinja2', graph=polycule.graph)
