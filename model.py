@@ -7,12 +7,12 @@ import tempfile
 
 class Polycule(object):
     def __init__(self, db=None, id=None, graph=None, view_pass=None,
-                 delete_pass=None, graph_hash=None):
+                 edit_pass=None, graph_hash=None):
         self._db = db
         self.id = id
         self.graph = graph
         self.view_pass = view_pass
-        self.delete_pass = delete_pass
+        self.edit_pass = edit_pass
         self.graph_hash = graph_hash
 
     @classmethod
@@ -32,7 +32,7 @@ class Polycule(object):
             id=graph[0],
             graph=graph[1],
             view_pass=graph[2],
-            delete_pass=graph[3],
+            edit_pass=graph[3],
             graph_hash=graph[4])
         if not force and (
                 polycule.view_pass is not None and
@@ -42,17 +42,17 @@ class Polycule(object):
         return polycule
 
     @classmethod
-    def create(cls, db, graph, raw_view_pass, raw_delete_pass):
+    def create(cls, db, graph, raw_view_pass, raw_edit_pass):
         if raw_view_pass is not None:
             view_pass = bcrypt.hashpw(
                 raw_view_pass.encode(), bcrypt.gensalt()).decode()
         else:
             view_pass = None
-        if raw_delete_pass is not None:
-            delete_pass = bcrypt.hashpw(
-                raw_delete_pass.encode(), bcrypt.gensalt()).decode()
+        if raw_edit_pass is not None:
+            edit_pass = bcrypt.hashpw(
+                raw_edit_pass.encode(), bcrypt.gensalt()).decode()
         else:
-            delete_pass = None
+            edit_pass = None
         result = db.execute('select count(*) from polycules where graph = ?',
                             [graph])
         existing = result.fetchone()[0]
@@ -63,7 +63,7 @@ class Polycule(object):
             (graph, view_pass, delete_pass, hash) values (?, ?, ?, ?)''', [
                 graph,
                 view_pass,
-                delete_pass,
+                edit_pass,
                 hashlib.sha1(graph.encode('utf-8')).hexdigest(),
             ])
         db.commit()
@@ -72,9 +72,34 @@ class Polycule(object):
         ]).fetchone()[0]
         return Polycule.get(db, new_hash, None, force=True)
 
+    def can_save(self, edit_pass):
+        if not bcrypt.checkpw(edit_pass.encode('utf-8'),
+                              self.edit_pass.encode('utf-8')):
+            raise Polycule.PermissionDenied
+
+    def save(self, graph, raw_view_pass, raw_edit_pass, force=False):
+        if raw_view_pass:
+            view_pass = bcrypt.hashpw(
+                raw_view_pass.encode(), bcrypt.gensalt()).decode()
+        else:
+            view_pass = self.view_pass
+        if raw_edit_pass:
+            edit_pass = bcrypt.hashpw(
+                raw_edit_pass.encode(), bcrypt.gensalt()).decode()
+        else:
+            edit_pass = self.edit_pass
+        cur = self._db.cursor()
+        cur.execute('''update polycules
+        set graph = ?, view_pass = ?, delete_pass = ?
+        where id = ?''', [graph, view_pass, edit_pass, self.id])
+        self._db.commit()
+        self.graph = graph
+        self.view_pass = view_pass
+        self.edit_pass = edit_pass
+
     def delete(self, password, force=False):
         if not force and not bcrypt.checkpw(password.encode('utf-8'),
-                                            self.delete_pass.encode('utf-8')):
+                                            self.edit_pass.encode('utf-8')):
             raise Polycule.PermissionDenied
         cur = self._db.cursor()
         cur.execute('delete from polycules where id = ?', [self.id])

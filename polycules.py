@@ -139,16 +139,38 @@ def create_polycule():
     return render_template('create_polycule.jinja2', inherited=graph)
 
 
+@app.route('/edit/<polycule_id>', methods=['GET', 'POST'])
+def edit_polycule(polycule_id):
+    # Force, as we're relying on edit pass instead of view pass
+    polycule = Polycule.get(g.db, polycule_id, '', force=True)
+    try:
+        polycule.can_save(request.form.get('edit_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('edit_auth.jinja2')
+    return render_template('edit_polycule.jinja2',
+                           polycule_id=polycule_id,
+                           graph=polycule.graph)
+
+
+@app.route('/save/<polycule_id>', methods=['POST'])
+def save_existing_polycule(polycule_id):
+    polycule = Polycule.get(g.db, polycule_id, '', force=True)
+    polycule.save(
+        request.form.get('graph'),
+        request.form.get('view_pass'),
+        request.form.get('edit_pass'))
+    return redirect('/{}'.format(polycule_id))
+
+
 @app.route('/save', methods=['POST'])
-def save_polycule():
+def save_new_polycule():
     """ Save a created polycule. """
-    # TODO check json encoding, check size
     try:
         polycule = Polycule.create(
             g.db,
             request.form['graph'],
             request.form.get('view_pass', b''),
-            request.form.get('delete_pass', b''))
+            request.form.get('edit_pass', b''))
     except Polycule.IdenticalGraph:
         return render_template('error.jinja2', error='An identical polycule '
                                'to the one you submitted already exists!')

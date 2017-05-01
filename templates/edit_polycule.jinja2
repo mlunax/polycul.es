@@ -104,25 +104,25 @@
     </div>
 </div>
 <script type="text/javascript">
-    var graph = {{ inherited }};
+    var graph = {{ graph }};
 </script>
 <script src="/static/polycule.js" charset="utf-8"></script>
 <script src="/static/build.js" charset="utf-8"></script>
 
-<form action="/save" method="post" class="wrapper">
-    <textarea name="graph" id="graph-field" class="hidden">{{ inherited }}</textarea>
+<form action="/save/{{polycule_id}}" method="post" class="wrapper">
+    <textarea name="graph" id="graph-field" class="hidden">{{ graph }}</textarea>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
     <div class="form-group">
         <label for="id_view_pass">View Password</label>
         <input type="password" name="view_pass" id="id_view_pass" />
         <em>Optional</em>
-        <p class="help-block">Enter a password if you would like to restrict viewing of the polycule to only those who have the password.  No password makes the polycule public and inheritable.</p>
+        <p class="help-block">Enter a password if you would like to restrict viewing of the polycule to only those who have the password. Leave blank to keep current setting</p>
     </div>
     <div class="form-group">
         <label for="id_delete_pass">Edit Password</label>
         <input type="password" name="edit_pass" id="id_edit_pass" />
         <em>Optional</em>
-        <p class="help-block">Enter a password if you would like to be able to edit the polycule in the future.  No password means you will not be able to edit or delete the polycule.</p>
+        <p class="help-block">Enter a password if you would like to be able to delete the polycule in the future. Leave blank to keep current setting.</p>
     </div>
     <button type="submit">Save</button>
 </form>
