@@ -1,0 +1,15 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="wrapper">
+    <form method="post"{% if polycule_id %} action="/edit/{{polycule_id}}"{% endif %}>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+        <input type="hidden" name="editing" value="true" />
+        <label for="id_view_pass">Edit Password</label>
+        <input type="password" name="edit_pass" id="id_edit_pass" />
+        <em>Required</em>
+        <p class="help-block">A password is required to edit this polycule</p>
+        <button type="submit">Edit polycule</button>
+    </form>
+</div>
+{% endblock %}
