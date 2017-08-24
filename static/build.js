@@ -133,7 +133,7 @@ function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
 
-  if (d3.event.ctrlKey || d3.event.toElement.nodeName !== 'svg') {
+  if (d3.event.ctrlKey || d3.event.target.nodeName !== 'svg') {
     return;
   }
 
