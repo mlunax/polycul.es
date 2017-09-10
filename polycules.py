@@ -1,7 +1,9 @@
 import base64
 import os
 import sqlite3
+import json
 from contextlib import closing
+from jsonschema import validate
 
 from flask import (
     Flask,
@@ -166,6 +168,13 @@ def save_existing_polycule(polycule_id):
 @app.route('/save', methods=['POST'])
 def save_new_polycule():
     """ Save a created polycule. """
+    try:
+        with open('schema.json') as json_data:
+            schema = json.load(json_data)
+        validate(json.loads(request.form['graph']), schema)
+    except:
+        return render_template('error.jinja2',
+                               error='The submitted graph could not be parsed')
     try:
         polycule = Polycule.create(
             g.db,

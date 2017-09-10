@@ -1,0 +1,123 @@
+{
+  "type": "object",
+  "properties": {
+    "lastId": {
+      "type": "integer"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "integer"
+          },
+          "x": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "y": {
+            "type": "number"
+          },
+          "px": {
+            "type": "number"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "py": {
+            "type": "number"
+          },
+          "r": {
+            "type": "integer"
+          },
+          "index": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "integer"
+              },
+              "x": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "y": {
+                "type": "number"
+              },
+              "px": {
+                "type": "number"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "py": {
+                "type": "number"
+              },
+              "r": {
+                "type": "integer"
+              },
+              "index": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "target": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "integer"
+              },
+              "x": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "y": {
+                "type": "number"
+              },
+              "px": {
+                "type": "number"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "py": {
+                "type": "number"
+              },
+              "r": {
+                "type": "integer"
+              },
+              "index": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "strength": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
