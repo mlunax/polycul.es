@@ -20,7 +20,8 @@ class Polycule(object):
         if len(graph_hash) < 7:
             return None
         graph_hash = graph_hash + '_' * (40 - len(graph_hash))
-        result = db.execute('select id,graph,view_pass,delete_pass,hash from polycules where hash like ?', [
+        result = db.execute('''select id, graph, view_pass, delete_pass, hash
+            from polycules where hash like ?''', [
             graph_hash
         ])
         graph = result.fetchall()
