@@ -35,6 +35,27 @@ class SingleNode(TestCase):
         '''))
 
 
+class SingleNodeExtraParamaters(TestCase):
+    def test(self):
+        with self.assertRaises(Exception):
+            validatejson('''
+{"lastId":2,
+        "nodes":[
+        {"id":1,
+        "name":"Alice",
+        "x":477.1,
+        "y":297.6,
+        "r":12,
+        "index":0,
+        "weight":0,
+        "px":477.2,
+        "py":297.4,
+        "watcher":"Eve"}
+        ],
+        "links":[]}
+            ''')
+
+
 class SingleNodeFullParamaters(TestCase):
     def test(self):
         self.assertIsNone(validatejson(

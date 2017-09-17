@@ -1,4 +1,48 @@
 {
+  "$schema": "http://json-schema.org/draft-0.4/schema#",
+  "definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "type": "integer"
+        },
+        "x": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "y": {
+          "type": "number"
+        },
+        "px": {
+          "type": "number"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "py": {
+          "type": "number"
+        },
+        "r": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Radius"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "dashed": {
+          "type": "boolean",
+          "optional": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
   "type": "object",
   "properties": {
     "lastId": {
@@ -7,42 +51,7 @@
     "nodes": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "weight": {
-            "type": "integer"
-          },
-          "x": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "y": {
-            "type": "number"
-          },
-          "px": {
-            "type": "number"
-          },
-          "id": {
-            "type": "integer"
-          },
-          "py": {
-            "type": "number"
-          },
-          "r": {
-            "type": ["integer", "string"],
-            "description": "Radius"
-          },
-          "index": {
-            "type": "integer"
-          },
-          "dashed": {
-            "type": "boolean",
-            "optional": true
-          }
-        },
-        "additionalProperties": false
+        "$ref": "#/definitions/node"
       }
     },
     "links": {
@@ -50,90 +59,33 @@
       "items": {
         "type": "object",
         "properties": {
-                        "sourceText": {
-                "type": "string",
-                "optional": true
-              },
-              "dashed": {
-                "type": "boolean",
-                "optional": true
-              },
-              "targetText": {
-                "type": "string",
-                "optional": true
-              },
-              "centerText": {
-                "type": "string",
-                "optional": true
-              },
+          "sourceText": {
+            "type": "string",
+            "optional": true
+          },
+          "dashed": {
+            "type": "boolean",
+            "optional": true
+          },
+          "targetText": {
+            "type": "string",
+            "optional": true
+          },
+          "centerText": {
+            "type": "string",
+            "optional": true
+          },
           "source": {
-            "type": "object",
-            "properties": {
-              "weight": {
-                "type": "integer"
-              },
-              "x": {
-                "type": "number"
-              },
-              "name": {
-                "type": "string"
-              },
-              "y": {
-                "type": "number"
-              },
-              "px": {
-                "type": "number"
-              },
-              "id": {
-                "type": "integer"
-              },
-              "py": {
-                "type": "number"
-              },
-              "r": {
-                "type": "integer"
-              },
-              "index": {
-                "type": "integer"
-              }
-            },
-            "additionalProperties": false
+            "$ref": "#/definitions/node"
           },
           "target": {
-            "type": "object",
-            "properties": {
-              "weight": {
-                "type": "integer"
-              },
-              "x": {
-                "type": "number"
-              },
-              "name": {
-                "type": "string"
-              },
-              "y": {
-                "type": "number"
-              },
-              "px": {
-                "type": "number"
-              },
-              "id": {
-                "type": "integer"
-              },
-              "py": {
-                "type": "number"
-              },
-              "r": {
-                "type": "integer"
-              },
-              "index": {
-                "type": "integer"
-              }
-            },
-            "additionalProperties": false
+            "$ref": "#/definitions/node"
           },
           "strength": {
-            "type": ["integer", "string"]
+            "type": [
+              "integer",
+              "string"
+            ]
           }
         },
         "additionalProperties": false
