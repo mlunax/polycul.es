@@ -31,10 +31,15 @@
             "type": "number"
           },
           "r": {
-            "type": "integer"
+            "type": ["integer", "string"],
+            "description": "Radius"
           },
           "index": {
             "type": "integer"
+          },
+          "dashed": {
+            "type": "boolean",
+            "optional": true
           }
         },
         "additionalProperties": false
@@ -45,6 +50,22 @@
       "items": {
         "type": "object",
         "properties": {
+                        "sourceText": {
+                "type": "string",
+                "optional": true
+              },
+              "dashed": {
+                "type": "boolean",
+                "optional": true
+              },
+              "targetText": {
+                "type": "string",
+                "optional": true
+              },
+              "centerText": {
+                "type": "string",
+                "optional": true
+              },
           "source": {
             "type": "object",
             "properties": {
@@ -112,7 +133,7 @@
             "additionalProperties": false
           },
           "strength": {
-            "type": "integer"
+            "type": ["integer", "string"]
           }
         },
         "additionalProperties": false
