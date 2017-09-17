@@ -3,9 +3,6 @@ from jsonschema import validate
 import json
 
 
-DATABASE = 'dev.db'
-
-
 def validatejson(body):
     with open('schema.json') as json_data:
         schema = json.load(json_data)
