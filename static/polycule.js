@@ -13,7 +13,6 @@ var width  = 960,
 var svg = d3.select('#graph')
   .append('svg')
   .attr('oncontextmenu', 'return false;')
-  .attr('style', '-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;')
   .attr('width', width)
   .attr('height', height);
 
