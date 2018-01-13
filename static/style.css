@@ -51,7 +51,6 @@ form {
     box-shadow: 5px 5px 10px #eee;
     width: 960px;
     margin: 0 auto;
-    style: -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
 }
 
 #graph p {
@@ -113,6 +112,7 @@ form {
 
 #graph.build {
     cursor: crosshair;
+    style: -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
 }
 
 #graph.build .node {
