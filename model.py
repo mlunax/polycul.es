@@ -110,7 +110,7 @@ class Polycule(object):
         for node in parsed['nodes']:
             dot += '\tnode{id} [label="{label}"]\n'.format(
                 id=node['id'],
-                label=node['name'].replace('"', '\\"'))
+                label=node['name'].encode('utf-8').replace('"', '\\"'))
         dot += '\n'
         for edge in parsed['links']:
             dot += '\tnode{id1} -- node{id2} [len={len}'.format(
@@ -206,7 +206,7 @@ class Polycule(object):
                 r=node['r'],
                 textx=node['x'],
                 texty=int(node['y']) - int(node['r']) - 5,
-                name=node['name'])
+                name=node['name'].encode('utf-8'))
         links_el = ''
         meanings_el = ''
         for edge in parsed['links']:
