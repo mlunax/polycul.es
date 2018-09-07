@@ -4,6 +4,9 @@
     "node": {
       "type": "object",
       "properties": {
+        "fixed": {
+          "type": "integer"
+        },
         "weight": {
           "type": "integer"
         },
@@ -47,6 +50,9 @@
   "properties": {
     "lastId": {
       "type": "integer"
+    },
+    "scale": {
+      "type": "number"
     },
     "nodes": {
       "type": "array",

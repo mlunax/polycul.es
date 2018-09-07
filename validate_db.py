@@ -5,7 +5,7 @@ import json
 import sqlite3
 
 
-DATABASE = 'dev.db'
+DATABASE = 'prod.db'
 
 
 def validatejson(body):
@@ -16,4 +16,8 @@ def validatejson(body):
 
 db = sqlite3.connect(DATABASE)
 for row in db.execute('SELECT graph, hash FROM polycules'):
-    print(row[1], validatejson(row[0]))
+    try:
+        print(row[1], validatejson(row[0]))
+    except Exception as e:
+        print(row[1])
+        print(e)

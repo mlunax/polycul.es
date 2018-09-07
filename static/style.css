@@ -51,6 +51,7 @@ form {
     box-shadow: 5px 5px 10px #eee;
     width: 960px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 #graph p {
@@ -169,8 +170,8 @@ form {
 #graph #zoom div {
     font-size: 25pt;
     color: #888;
-    border: 2px solid #888;
-    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
     width: 40px;
     height: 40px;
     text-align: center;

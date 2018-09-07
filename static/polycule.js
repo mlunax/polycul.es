@@ -9,13 +9,13 @@ var width  = 960,
     mousedown_node = null,
     mouseup_node = null,
     editing = false,
-    scale = 1;
+    scale = window.graph.scale || 1;
 
-var svg = d3.select('svg')
+var svg = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height)
-  .attr('transform', 'scale(1)');
+  .attr('transform', 'scale(' + scale + ')');
 
 window.graph.links.forEach(function(link) {
   window.graph.nodes.forEach(function(node) {
@@ -31,11 +31,23 @@ window.graph.links.forEach(function(link) {
 d3.select('#zoom #in')
   .on('click', function() {
     scale += 0.2;
+    window.graph.scale = scale;
+    try {
+      writeGraph();
+    } catch (e) {
+      //
+    }
     svg.attr('transform', 'scale(' + scale + ')');
   });
 d3.select('#zoom #out')
   .on('click', function() {
     scale -= 0.2;
+    window.graph.scale = scale;
+    try {
+      writeGraph();
+    } catch (e) {
+      //
+    }
     svg.attr('transform', 'scale(' + scale + ')');
   });
 
@@ -194,13 +206,9 @@ function restart() {
 
   // set the graph in motion
   force.start();
-  if (d3.select('#graph').classed('build')) {
-    try {
-      writeGraph();
-    } catch(e) {
-      console.log(e);
-    }
-  } else {
+  try {
+    writeGraph();
+  } catch(e) {
     node.call(force.drag);
   }
 }
