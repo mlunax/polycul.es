@@ -67,3 +67,5 @@ pip-selfcheck.json
 bin
 man
 include
+prod.db
+venv

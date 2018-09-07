@@ -6,6 +6,7 @@
 
 {% block content %}
 <div id="graph" class="build">
+    <svg id="panel"></svg><div id="zoom"><div id="in">+</div><div id="out">-</div></div>
     <div class="instructions">
         <p><a href="#" class="expand-help">Help <span class="caret"></span></a></p>
         <div class="body hidden">
@@ -109,7 +110,7 @@
 <script src="/static/polycule.js" charset="utf-8"></script>
 <script src="/static/build.js" charset="utf-8"></script>
 
-<form action="/save/{{polycule_id}}" method="post" class="wrapper">
+<form action="/save/{{polycule_id}}" method="post" class="wrapper" onsubmit="writeGraph();return true;">
     <textarea name="graph" id="graph-field" class="hidden">{{ graph }}</textarea>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
     <div class="form-group">
