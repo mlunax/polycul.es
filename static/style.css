@@ -159,3 +159,22 @@ form {
     fill: #888;
     font: 10px "Ubuntu Mono", monospace;
 }
+
+#graph #zoom {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+#graph #zoom div {
+    font-size: 25pt;
+    color: #888;
+    border: 2px solid #888;
+    border-radius: 2px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: top;
+    margin: 5px;
+    cursor: pointer;
+}

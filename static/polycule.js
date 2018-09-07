@@ -8,13 +8,14 @@ var width  = 960,
     mousedown_link = null,
     mousedown_node = null,
     mouseup_node = null,
-    editing = false;
+    editing = false,
+    scale = 1;
 
-var svg = d3.select('#graph')
-  .append('svg')
+var svg = d3.select('svg')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
-  .attr('height', height);
+  .attr('height', height)
+  .attr('transform', 'scale(1)');
 
 window.graph.links.forEach(function(link) {
   window.graph.nodes.forEach(function(node) {
@@ -26,6 +27,17 @@ window.graph.links.forEach(function(link) {
     }
   });
 });
+
+d3.select('#zoom #in')
+  .on('click', function() {
+    scale += 0.2;
+    svg.attr('transform', 'scale(' + scale + ')');
+  });
+d3.select('#zoom #out')
+  .on('click', function() {
+    scale -= 0.2;
+    svg.attr('transform', 'scale(' + scale + ')');
+  });
 
 // init D3 force layout
 var force = d3.layout.force()

@@ -1,15 +1,12 @@
-bin/python:
-	virtualenv .
-
-.PHONY: deps
-deps: bin/python
-	bin/pip install -r requirements.txt
+venv/bin/python:
+	virtualenv venv
+	venv/bin/pip install -r requirements.txt
 
 .PHONY: run
-run:
-	bin/python polycules.py
+run: venv/bin/python
+	venv/bin/python polycules.py
 
 .PHONY: test
-test:
-	bin/flake8 --config=.flake8
-	bin/nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model,migrations.hashify
+test: venv/bin/python
+	venv/bin/flake8 --config=.flake8
+	venv/bin/nosetests --with-coverage --cover-erase --verbosity=2 --cover-package=polycules,model,migrations.hashify
