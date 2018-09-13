@@ -15,6 +15,7 @@ var svg = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height)
+  .append('g')
   .attr('transform', 'scale(' + scale + ')');
 
 window.graph.links.forEach(function(link) {
