@@ -364,7 +364,7 @@ function addTemplate(template) {
   attachEvents();
 }
 
-svg.on('mousedown', mousedown)
+panel.on('mousedown', mousedown)
   .on('mousemove', mousemove)
   .on('mouseup', mouseup);
 d3.select(window)

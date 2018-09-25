@@ -11,11 +11,11 @@ var width  = 960,
     editing = false,
     scale = window.graph.scale || 1;
 
-var svg = d3.select('#panel')
+var panel = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height)
-  .append('g')
+var svg = panel.append('g')
   .attr('transform', 'scale(' + scale + ')');
 
 window.graph.links.forEach(function(link) {

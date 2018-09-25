@@ -269,5 +269,5 @@ def export_png(polycule_id):
 
 
 if __name__ == '__main__':
-    migrate()
+    #migrate()
     app.run()
