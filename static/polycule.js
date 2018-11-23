@@ -19,7 +19,7 @@ var panel = d3.select('#panel')
 var svg = panel.append('g')
   .attr('transform', 'scale(' + scale + ') translate(' + translate + ')');
 
-function setScale(newScale) {
+function applyScale(newScale) {
   scale += newScale;
   window.graph.scale = scale;
   translate[0] -= (width / 2) * newScale;
@@ -46,11 +46,11 @@ window.graph.links.forEach(function(link) {
 
 d3.select('#zoom #in')
   .on('click', function() {
-    setScale(0.1);
+    applyScale(0.1);
   });
 d3.select('#zoom #out')
   .on('click', function() {
-    setScale(-0.1);
+    applyScale(-0.1);
   });
 
 // init D3 force layout
