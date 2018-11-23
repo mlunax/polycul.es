@@ -9,14 +9,29 @@ var width  = 960,
     mousedown_node = null,
     mouseup_node = null,
     editing = false,
-    scale = window.graph.scale || 1;
+    scale = window.graph.scale || 1,
+    translate = window.graph.translate || [0, 0];
 
 var panel = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
-  .attr('height', height)
+  .attr('height', height);
 var svg = panel.append('g')
-  .attr('transform', 'scale(' + scale + ')');
+  .attr('transform', 'scale(' + scale + ') translate(' + translate + ')');
+
+function setScale(newScale) {
+  scale += newScale;
+  window.graph.scale = scale;
+  translate[0] -= (width / 2) * newScale;
+  translate[1] -= (height / 2) * newScale;
+  window.graph.translate = translate;
+  try {
+    writeGraph();
+  } catch (e) {
+    //
+  }
+  svg.attr('transform',  'translate(' + translate + ') scale(' + scale + ')');
+}
 
 window.graph.links.forEach(function(link) {
   window.graph.nodes.forEach(function(node) {
@@ -31,25 +46,11 @@ window.graph.links.forEach(function(link) {
 
 d3.select('#zoom #in')
   .on('click', function() {
-    scale += 0.2;
-    window.graph.scale = scale;
-    try {
-      writeGraph();
-    } catch (e) {
-      //
-    }
-    svg.attr('transform', 'scale(' + scale + ')');
+    setScale(0.1);
   });
 d3.select('#zoom #out')
   .on('click', function() {
-    scale -= 0.2;
-    window.graph.scale = scale;
-    try {
-      writeGraph();
-    } catch (e) {
-      //
-    }
-    svg.attr('transform', 'scale(' + scale + ')');
+    setScale(-0.1);
   });
 
 // init D3 force layout
