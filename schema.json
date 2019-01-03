@@ -54,6 +54,9 @@
     "scale": {
       "type": "number"
     },
+    "translate": {
+      "type": "array"
+    },
     "nodes": {
       "type": "array",
       "items": {
