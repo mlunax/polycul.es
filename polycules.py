@@ -48,7 +48,6 @@ def migrate():
             if migration_number <= current_migration:
                 print('migration {} already applied'.format(migration_number))
                 continue
-            import pdb; pdb.set_trace()
             with open(os.path.join(migrations_dir, filename), 'rb') as f:
                 try:
                     db.cursor().executescript(f.read())
@@ -180,7 +179,7 @@ def save_new_polycule():
         with open('schema.json') as json_data:
             schema = json.load(json_data)
         validate(json.loads(request.form['graph']), schema)
-    except:
+    except Exception:
         return render_template('error.jinja2',
                                error='The submitted graph could not be parsed')
     try:
