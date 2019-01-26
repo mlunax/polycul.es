@@ -38,12 +38,20 @@ def migrate():
         os.path.dirname(os.path.abspath(__file__)),
         'migrations')
     with closing(connect_db()) as db:
-        for filename in os.listdir(migrations_dir):
-            if filename[-2:] == 'py':
+        current_migration = db.execute('''
+            select * from migrations
+        ''').fetchall()[0][0]
+        for filename in sorted(os.listdir(migrations_dir)):
+            if filename[-3:] != 'sql':
                 continue
+            migration_number = int(filename[:3])
+            if migration_number <= current_migration:
+                print('migration {} already applied'.format(migration_number))
+                continue
+            import pdb; pdb.set_trace()
             with open(os.path.join(migrations_dir, filename), 'rb') as f:
                 try:
-                    db.cursor().execute(f.read())
+                    db.cursor().executescript(f.read())
                 except Exception as e:
                     print('Got {} - maybe already applied?'.format(e))
                 finally:
@@ -269,5 +277,5 @@ def export_png(polycule_id):
 
 
 if __name__ == '__main__':
-    # migrate()
+    migrate()
     app.run()
