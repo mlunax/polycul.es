@@ -258,8 +258,42 @@ class Polycule(object):
         dest.close()
         return png
 
+    def get_incoming_bond_requests(self):
+        pass
+
+    def get_outgoing_bond_requests(self):
+        pass
+
     class PermissionDenied(Exception):
         pass
 
     class IdenticalGraph(Exception):
+        pass
+
+
+class Bond(object):
+    def __init__(self, db=None, id=None, from_polycule=None, to_polycule=None,
+                 passphrase=None, status='pending'):
+        self._db = db
+        self.id = id
+        self.from_polycule = from_polycule
+        self.to_polycule = to_polycule
+        self.passphrase = passphrase
+        self.status = status
+
+    @classmethod
+    def get(cls, db, id):
+        pass
+
+    @classmethod
+    def create(cls, db, from_polycule, to_polycule, passphrase):
+        pass
+
+    def approve(self):
+        pass
+
+    def delete(self):
+        pass
+
+    class IncorrectPassphrase(Exception):
         pass
