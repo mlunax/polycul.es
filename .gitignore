@@ -61,6 +61,9 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+# Editor files
+*.sw[op]
+
 # Project files
 dev*.db
 pip-selfcheck.json

@@ -10,27 +10,32 @@ var width  = 960,
     mouseup_node = null,
     editing = false,
     scale = window.graph.scale || 1,
-    translate = window.graph.translate || [0, 0];
+    translate = [0, 0];
 
 var panel = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height);
-var svg = panel.append('g')
-  .attr('transform', 'scale(' + scale + ') translate(' + translate + ')');
+var translateContainer = panel.append('g');
+var scaleContainer = translateContainer.append('g')
+  .attr('transform', 'scale(' + scale + ')');
+var svg = scaleContainer.append('g');
 
 function applyScale(newScale) {
+  var oldscale = scale;
   scale += newScale;
   window.graph.scale = scale;
-  translate[0] -= (width / 2) * newScale;
-  translate[1] -= (height / 2) * newScale;
-  window.graph.translate = translate;
   try {
     writeGraph();
   } catch (e) {
     //
   }
-  svg.attr('transform',  'translate(' + translate + ') scale(' + scale + ')');
+  scaleContainer.attr('transform',  'scale(' + scale + ')');
+  translate = [
+    translate[0] + ((width * oldscale) - (width * scale)),
+    translate[1] + ((height * oldscale) - (height * scale))
+  ];
+  translateContainer.attr('transform', 'translate(' + translate + ')');
 }
 
 window.graph.links.forEach(function(link) {
@@ -57,7 +62,7 @@ d3.select('#zoom #out')
 var force = d3.layout.force()
     .nodes(window.graph.nodes)
     .links(window.graph.links)
-    .size([width, height])
+    .size([width / scale, height / scale])
     .linkDistance(function(d) { return Math.log(3 / d.strength * 10) * 50; })
     .charge(-500)
     .on('tick', tick)
@@ -214,6 +219,41 @@ function restart() {
     node.call(force.drag);
   }
 }
+    
+function panzoom() {
+  d3.event.preventDefault()
+  switch (d3.event.key) {
+    case 'ArrowUp':
+    case 'w':
+    case 'k':
+      console.log('pan up');
+      break;
+    case 'ArrowDown':
+    case 's':
+    case 'j':
+      console.log('pan down');
+      break;
+    case 'ArrowLeft':
+    case 'a':
+    case 'h':
+      console.log('pan left');
+      break;
+    case 'ArrowRight':
+    case 'd':
+    case 'l':
+      console.log('pan right');
+      break;
+    case '+':
+      console.log('zoom in');
+      break;
+    case '-':
+      console.log('zoom out');
+      break;
+  }
+}
+
+d3.select(window)
+  .on('keydown', panzoom);
 
 // app starts here
 restart();
