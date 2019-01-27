@@ -157,6 +157,10 @@ def edit_polycule(polycule_id):
         polycule.can_save(request.form.get('edit_pass', b''))
     except Polycule.PermissionDenied:
         return render_template('edit_auth.jinja2')
+    except Polycule.NoPassword:
+        return render_template(
+            'error.jinja2',
+            error='This polycule has no password and thus cannot be edited :(')
     return render_template('edit_polycule.jinja2',
                            polycule_id=polycule_id,
                            graph=polycule.graph)

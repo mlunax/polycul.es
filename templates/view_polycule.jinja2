@@ -6,7 +6,23 @@
 
 {% block content %}
 <p class="wrapper"><small>Polycule {{polycule.graph_hash}}: <a href="/{{polycule.graph_hash}}">Full link</a> &bullet; <a href="/{{polycule.graph_hash[:7]}}">Short link</a></small></p>
-<div id="graph"><svg id="panel"></svg><div id="zoom"><div id="in">+</div><div id="out">-</div></div></div>
+<div id="graph">
+    <svg id="panel"></svg>
+    <div id="panzoom">
+        <div id="in">+</div>
+        <div id="pan">
+            <div id="up">&uarr;</div>
+            <div id="left">&larr;</div>
+            <div id="down">&darr;</div>
+            <div id="right">&rarr;</div>
+        </div>
+        <div id="out">-</div>
+    </div>
+    <div id="shortcuts">
+        <strong>pan:</strong> w/a/s/d - k/h/j/l - &uarr;/&larr;/&darr;/&rarr;
+        <strong>zoom:</strong> +/-
+    </div>
+</div>
 <script type="text/javascript">
     var graph = {{ polycule.graph }};
 </script>

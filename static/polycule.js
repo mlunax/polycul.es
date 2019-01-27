@@ -16,22 +16,47 @@ var panel = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height);
-var svg = panel.append('g')
-  .attr('transform', 'scale(' + scale + ') translate(' + translate + ')');
+var translateContainer = panel.append('g')
+  .attr('transform', 'translate(' + translate + ')');
+var scaleContainer = translateContainer.append('g')
+  .attr('transform', 'scale(' + scale + ')');
+var svg = scaleContainer.append('g');
 
-function applyScale(newScale) {
+function zoom(newScale) {
+  var oldscale = scale;
   scale += newScale;
   window.graph.scale = scale;
-  translate[0] -= (width / 2) * newScale;
-  translate[1] -= (height / 2) * newScale;
+  scaleContainer.attr('transform',  'scale(' + scale + ')');
+
+  translate = [
+    translate[0] + ((width * oldscale) - (width * scale)),
+    translate[1] + ((height * oldscale) - (height * scale))
+  ];
   window.graph.translate = translate;
+  translateContainer.attr('transform', 'translate(' + translate + ')');
+
   try {
     writeGraph();
   } catch (e) {
     //
   }
-  svg.attr('transform',  'translate(' + translate + ') scale(' + scale + ')');
 }
+
+function pan(vert, horiz) {
+  translate = [
+    translate[0] + horiz,
+    translate[1] + vert
+  ];
+  window.graph.translate = translate;
+  translateContainer.attr('transform', 'translate(' + translate + ')');
+
+  try {
+    writeGraph();
+  } catch (e) {
+    //
+  }
+}
+  
 
 window.graph.links.forEach(function(link) {
   window.graph.nodes.forEach(function(node) {
@@ -44,20 +69,36 @@ window.graph.links.forEach(function(link) {
   });
 });
 
-d3.select('#zoom #in')
+d3.select('#in')
   .on('click', function() {
-    applyScale(0.1);
+    zoom(0.1);
   });
-d3.select('#zoom #out')
+d3.select('#out')
   .on('click', function() {
-    applyScale(-0.1);
+    zoom(-0.1);
+  });
+d3.select('#up')
+  .on('click', function() {
+    pan(-10, 0);
+  });
+d3.select('#down')
+  .on('click', function() {
+    pan(10, 0);
+  });
+d3.select('#left')
+  .on('click', function() {
+    pan(0, -10);
+  });
+d3.select('#right')
+  .on('click', function() {
+    pan(0, 10);
   });
 
 // init D3 force layout
 var force = d3.layout.force()
     .nodes(window.graph.nodes)
     .links(window.graph.links)
-    .size([width, height])
+    .size([width / scale, height / scale])
     .linkDistance(function(d) { return Math.log(3 / d.strength * 10) * 50; })
     .charge(-500)
     .on('tick', tick)
@@ -214,6 +255,41 @@ function restart() {
     node.call(force.drag);
   }
 }
+    
+function panzoom() {
+  d3.event.preventDefault()
+  switch (d3.event.key) {
+    case 'ArrowUp':
+    case 'w':
+    case 'k':
+      pan(-10, 0);
+      break;
+    case 'ArrowDown':
+    case 's':
+    case 'j':
+      pan(10, 0);
+      break;
+    case 'ArrowLeft':
+    case 'a':
+    case 'h':
+      pan(0, -10);
+      break;
+    case 'ArrowRight':
+    case 'd':
+    case 'l':
+      pan(0, 10);
+      break;
+    case '+':
+      zoom(0.1);
+      break;
+    case '-':
+      zoom(-0.1);
+      break;
+  }
+}
+
+d3.select(window)
+  .on('keydown', panzoom);
 
 // app starts here
 restart();
