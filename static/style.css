@@ -51,7 +51,8 @@ form {
     box-shadow: 5px 5px 10px #eee;
     width: 960px;
     margin: 0 auto;
-    overflow: hidden;
+    margin-bottom: 2rem;
+    overflow: visible;
 }
 
 #graph p {
@@ -113,7 +114,7 @@ form {
 
 #graph.build {
     cursor: crosshair;
-    style: -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+    user-select:none;
 }
 
 #graph.build .node {
@@ -133,7 +134,7 @@ form {
 
 #graph .templates {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     left: 5px;
 }
 
@@ -161,21 +162,99 @@ form {
     font: 10px "Ubuntu Mono", monospace;
 }
 
-#graph #zoom {
+#graph #panzoom {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
+    bottom: 20px;
+    right: 10px;
+    color: #888;
 }
 
-#graph #zoom div {
-    font-size: 25pt;
-    color: #888;
-    border: 1px solid rgba(0,0,0,0.25);
-    border-radius: 5px;
-    width: 40px;
-    height: 40px;
+#graph #panzoom small {
+    display: block;
+    text-align: center;
+}
+
+#graph #panzoom #in,
+#graph #panzoom #out {
+    font-size: 20pt;
+    border: 1px solid #ccc;
+    width: 30px;
+    height: 30px;
     text-align: center;
     vertical-align: top;
     margin: 5px;
     cursor: pointer;
+    margin: 0 auto;
+}
+#graph #panzoom #in {
+    border-bottom-width: 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+#graph #panzoom #out {
+    border-top: none;
+    border-radius: 0px 0px 5px 5px;
+}
+
+#graph #pan {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    width: 60px;
+    height: 60px;
+    padding: 0px;
+    margin: -5px 0px;
+}
+#graph #pan #up {
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -4;
+    left: 20px;
+}
+#graph #pan #left {
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 16px;
+    left: 0px;
+}
+#graph #pan #right {
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+    vertical-align: middle;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 16px;
+    right: 0px;
+}
+#graph #pan #down {
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 4px;
+    left: 20px;
+}
+
+#graph #shortcuts {
+    background-color: #fff;
+    color: #888;
+    border: 2px solid #eee;
+    border-top: none;;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 5px 10px 10px -1px #eee;
+    position: absolute;
+    bottom: -24px;
+    right: -2px;
+    padding: 0px 3px 3px 3px;
 }

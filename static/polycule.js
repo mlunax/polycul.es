@@ -10,33 +10,53 @@ var width  = 960,
     mouseup_node = null,
     editing = false,
     scale = window.graph.scale || 1,
-    translate = [0, 0];
+    translate = window.graph.translate || [0, 0];
 
 var panel = d3.select('#panel')
   .attr('oncontextmenu', 'return false;')
   .attr('width', width)
   .attr('height', height);
-var translateContainer = panel.append('g');
+var translateContainer = panel.append('g')
+  .attr('transform', 'translate(' + translate + ')');
 var scaleContainer = translateContainer.append('g')
   .attr('transform', 'scale(' + scale + ')');
 var svg = scaleContainer.append('g');
 
-function applyScale(newScale) {
+function zoom(newScale) {
   var oldscale = scale;
   scale += newScale;
   window.graph.scale = scale;
+  scaleContainer.attr('transform',  'scale(' + scale + ')');
+
+  translate = [
+    translate[0] + ((width * oldscale) - (width * scale)),
+    translate[1] + ((height * oldscale) - (height * scale))
+  ];
+  window.graph.translate = translate;
+  translateContainer.attr('transform', 'translate(' + translate + ')');
+
   try {
     writeGraph();
   } catch (e) {
     //
   }
-  scaleContainer.attr('transform',  'scale(' + scale + ')');
-  translate = [
-    translate[0] + ((width * oldscale) - (width * scale)),
-    translate[1] + ((height * oldscale) - (height * scale))
-  ];
-  translateContainer.attr('transform', 'translate(' + translate + ')');
 }
+
+function pan(vert, horiz) {
+  translate = [
+    translate[0] + horiz,
+    translate[1] + vert
+  ];
+  window.graph.translate = translate;
+  translateContainer.attr('transform', 'translate(' + translate + ')');
+
+  try {
+    writeGraph();
+  } catch (e) {
+    //
+  }
+}
+  
 
 window.graph.links.forEach(function(link) {
   window.graph.nodes.forEach(function(node) {
@@ -49,13 +69,29 @@ window.graph.links.forEach(function(link) {
   });
 });
 
-d3.select('#zoom #in')
+d3.select('#in')
   .on('click', function() {
-    applyScale(0.1);
+    zoom(0.1);
   });
-d3.select('#zoom #out')
+d3.select('#out')
   .on('click', function() {
-    applyScale(-0.1);
+    zoom(-0.1);
+  });
+d3.select('#up')
+  .on('click', function() {
+    pan(-10, 0);
+  });
+d3.select('#down')
+  .on('click', function() {
+    pan(10, 0);
+  });
+d3.select('#left')
+  .on('click', function() {
+    pan(0, -10);
+  });
+d3.select('#right')
+  .on('click', function() {
+    pan(0, 10);
   });
 
 // init D3 force layout
@@ -226,28 +262,28 @@ function panzoom() {
     case 'ArrowUp':
     case 'w':
     case 'k':
-      console.log('pan up');
+      pan(-10, 0);
       break;
     case 'ArrowDown':
     case 's':
     case 'j':
-      console.log('pan down');
+      pan(10, 0);
       break;
     case 'ArrowLeft':
     case 'a':
     case 'h':
-      console.log('pan left');
+      pan(0, -10);
       break;
     case 'ArrowRight':
     case 'd':
     case 'l':
-      console.log('pan right');
+      pan(0, 10);
       break;
     case '+':
-      console.log('zoom in');
+      zoom(0.1);
       break;
     case '-':
-      console.log('zoom out');
+      zoom(-0.1);
       break;
   }
 }

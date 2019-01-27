@@ -6,7 +6,18 @@
 
 {% block content %}
 <div id="graph" class="build">
-    <svg id="panel"></svg><div id="zoom"><div id="in">+</div><div id="out">-</div></div>
+    <svg id="panel"></svg>
+    <div id="panzoom">
+        <small>Pan/zoom<br />Data<br />will be<br />saved!</small>
+        <div id="in">+</div>
+        <div id="pan">
+            <div id="up">&uarr;</div>
+            <div id="left">&larr;</div>
+            <div id="down">&darr;</div>
+            <div id="right">&rarr;</div>
+        </div>
+        <div id="out">-</div>
+    </div>
     <div class="instructions">
         <p><a href="#" class="expand-help">Help <span class="caret"></span></a></p>
         <div class="body hidden">

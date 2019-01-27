@@ -55,7 +55,10 @@
       "type": "number"
     },
     "translate": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
     },
     "nodes": {
       "type": "array",

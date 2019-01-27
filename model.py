@@ -72,8 +72,11 @@ class Polycule(object):
         return Polycule.get(db, new_hash, None, force=True)
 
     def can_save(self, edit_pass):
-        if not bcrypt.checkpw(edit_pass.encode('utf-8'),
-                              self.edit_pass.encode('utf-8')):
+        if len(edit_pass) == 0:
+            raise Polycule.NoPassword
+        if not bcrypt.checkpw(
+                edit_pass.encode('utf-8'),
+                self.edit_pass.encode('utf-8')):
             raise Polycule.PermissionDenied
 
     def save(self, graph, raw_view_pass, raw_edit_pass, force=False):
@@ -257,6 +260,9 @@ class Polycule(object):
         source.close()
         dest.close()
         return png
+
+    class NoPassword(Exception):
+        pass
 
     class PermissionDenied(Exception):
         pass
