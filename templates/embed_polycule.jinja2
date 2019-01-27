@@ -11,7 +11,19 @@
         </style>
     </head>
     <body>
-        <div id="graph"><svg id="panel"></svg><div id="zoom"><div id="in">+</div><div id="out">-</div></div></div>
+        <div id="graph" style="margin: 0 auto;">
+            <svg id="panel"></svg>
+            <div id="panzoom">
+                <div id="in">+</div>
+                <div id="pan">
+                    <div id="up">&uarr;</div>
+                    <div id="left">&larr;</div>
+                    <div id="down">&darr;</div>
+                    <div id="right">&rarr;</div>
+                </div>
+                <div id="out">-</div>
+            </div>
+        </div>
         <script type="text/javascript">
             var graph = {{ graph }};
         </script>
