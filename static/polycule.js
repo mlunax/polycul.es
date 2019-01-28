@@ -79,19 +79,19 @@ d3.select('#out')
   });
 d3.select('#up')
   .on('click', function() {
-    pan(-10, 0);
+    pan(10, 0);
   });
 d3.select('#down')
   .on('click', function() {
-    pan(10, 0);
+    pan(-10, 0);
   });
 d3.select('#left')
   .on('click', function() {
-    pan(0, -10);
+    pan(0, 10);
   });
 d3.select('#right')
   .on('click', function() {
-    pan(0, 10);
+    pan(0, -10);
   });
 
 // init D3 force layout
@@ -262,22 +262,22 @@ function panzoom() {
     case 'ArrowUp':
     case 'w':
     case 'k':
-      pan(-10, 0);
+      pan(10, 0);
       break;
     case 'ArrowDown':
     case 's':
     case 'j':
-      pan(10, 0);
+      pan(-10, 0);
       break;
     case 'ArrowLeft':
     case 'a':
     case 'h':
-      pan(0, -10);
+      pan(0, 10);
       break;
     case 'ArrowRight':
     case 'd':
     case 'l':
-      pan(0, 10);
+      pan(0, -10);
       break;
     case '+':
       zoom(0.1);
