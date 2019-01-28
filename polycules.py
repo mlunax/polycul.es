@@ -153,6 +153,8 @@ def create_polycule():
 def edit_polycule(polycule_id):
     # Force, as we're relying on edit pass instead of view pass
     polycule = Polycule.get(g.db, polycule_id, '', force=True)
+    if request.method == 'GET':
+        return render_template('edit_auth.jinja2')
     try:
         polycule.can_save(request.form.get('edit_pass', b''))
     except Polycule.PermissionDenied:
