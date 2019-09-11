@@ -1,6 +1,7 @@
 import bcrypt
 import hashlib
 import json
+import markdown
 import subprocess
 import tempfile
 
@@ -117,7 +118,7 @@ online at <https://polycul.es/{}>.
 '''.format(self.graph_hash)
         parsed = json.loads(self.graph)
         for edge in parsed['links']:
-            text += '* {}{} is in a {}relationship{} with {}{}\n'.format(
+            text += '* _{}_{} is in a {}relationship{} with _{}_{}\n'.format(
                 edge['source']['name'].encode('utf-8'),
                 ' ({})'.format(edge['sourceText'].encode('utf-8'))
                     if 'sourceText' in edge else '',
@@ -129,6 +130,9 @@ online at <https://polycul.es/{}>.
                 ' ({})'.format(edge['targetText'].encode('utf-8'))
                     if 'targetText' in edge else '',)
         return text
+
+    def as_html(self):
+        return markdown.markdown(self.as_text())
 
     def as_dot(self, edge_labels=False):
         dot = 'graph polycule {\n'
