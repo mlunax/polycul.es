@@ -176,14 +176,18 @@ online at <https://polycul.es/{}>.
         <svg width="{width}" height="{height}" viewbox="0 0 {width} {height}"
             xmlns="http://www.w3.org/2000/svg">
             {style}
-            <g class="polycul_es-links">
-                {links}
-            </g>
-            <g class="polycul_es-nodes">
-                {nodes}
-            </g>
-            <g class="polycul_es-meanings">
-                {meanings}
+            <g transform="translate({translate})">
+                <g transform="scale({scale})">
+                    <g class="polycul_es-links">
+                        {links}
+                    </g>
+                    <g class="polycul_es-nodes">
+                        {nodes}
+                    </g>
+                    <g class="polycul_es-meanings">
+                        {meanings}
+                    </g>
+                </g>
             </g>
         </svg>
         """
@@ -265,6 +269,8 @@ online at <https://polycul.es/{}>.
             style=style if include_style else "",
             width=1000,
             height=540,
+            translate=parsed.get('translate', '0, 0'),
+            scale=parsed.get('scale', 1),
             nodes=nodes_el,
             links=links_el,
             meanings=meanings_el if edge_labels else "")
