@@ -1,6 +1,7 @@
 import bcrypt
 import hashlib
 import json
+import markdown
 import subprocess
 import tempfile
 
@@ -107,6 +108,31 @@ class Polycule(object):
         cur = self._db.cursor()
         cur.execute('delete from polycules where id = ?', [self.id])
         self._db.commit()
+
+    def as_text(self):
+        text = '''# Polycule
+
+This is our relationship graph. You can see a visual representation of it
+online at <https://polycul.es/{}>.
+
+'''.format(self.graph_hash)
+        parsed = json.loads(self.graph)
+        for edge in parsed['links']:
+            text += '* _{}_{} is in a {}relationship{} with _{}_{}\n'.format(
+                edge['source']['name'].encode('utf-8'),
+                ' ({})'.format(edge['sourceText'].encode('utf-8'))
+                    if 'sourceText' in edge else '',
+                'loosely defined '
+                    if 'dashed' in edge else '',
+                ' ({})'.format(edge['centerText'].encode('utf-8'))
+                    if 'centerText' in edge else '',
+                edge['target']['name'].encode('utf-8'),
+                ' ({})'.format(edge['targetText'].encode('utf-8'))
+                    if 'targetText' in edge else '',)
+        return text
+
+    def as_html(self):
+        return markdown.markdown(self.as_text())
 
     def as_dot(self, edge_labels=False):
         dot = 'graph polycule {\n'

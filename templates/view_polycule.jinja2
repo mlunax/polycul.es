@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<p class="wrapper"><small>Polycule {{polycule.graph_hash}}: <a href="/{{polycule.graph_hash}}">Full link</a> &bullet; <a href="/{{polycule.graph_hash[:7]}}">Short link</a></small></p>
+<p class="wrapper"><small>Polycule {{polycule.graph_hash}}: <a href="/{{polycule.graph_hash}}">Full link</a> &bullet; <a href="/{{polycule.graph_hash[:7]}}">Short link</a> &bullet; <a href="/{{polycule.graph_hash}}.html">Text only</a></small></p>
 <div id="graph">
     <svg id="panel"></svg>
     <div id="panzoom">
