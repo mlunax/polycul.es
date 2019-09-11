@@ -1,7 +1,7 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<div class="wrapper">
+<div class="wrapper flex">
     <div class="form-group">
         <h2>Export as GraphViz dot file</h2>
         <p>Raw dot file:</p>
@@ -49,6 +49,13 @@
                 Include link labels
             </label>
             <input type="submit" value="Generate PNG file" />
+        </form>
+    </div>
+    <div class="form-group">
+        <h2>Export as plain text</h2>
+        <form action="/export/{{polycule.graph_hash}}/polycule.txt">
+            <label>Export as plain text (markdown)</label>
+            <input type="submit" value="Generate text fiile" />
         </form>
     </div>
 </div>

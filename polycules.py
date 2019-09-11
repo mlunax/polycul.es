@@ -224,6 +224,19 @@ def choose_export(polycule_id):
     return render_template('choose_export.jinja2', polycule=polycule)
 
 
+@app.route('/export/<string:polycule_id>/polycule.txt',
+           methods=['GET', 'POST'])
+def export_text(polycule_id):
+    try:
+        polycule = Polycule.get(g.db, polycule_id,
+                                request.form.get('view_pass', b''))
+    except Polycule.PermissionDenied:
+        return render_template('view_auth.jinja2')
+    if polycule is None:
+        return render_template('error.jinja2', error='Polycule not found :(')
+    return Response(polycule.as_text(), mimetype='text/plain')
+
+
 @app.route('/export/<string:polycule_id>/polycule.dot',
            methods=['GET', 'POST'])
 def export_dot(polycule_id):
