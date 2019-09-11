@@ -132,7 +132,7 @@ online at <https://polycul.es/{}>.
         return text
 
     def as_html(self):
-        return markdown.markdown(self.as_text())
+        return markdown.markdown(self.as_text().decode('utf-8'))
 
     def as_dot(self, edge_labels=False):
         dot = 'graph polycule {\n'
