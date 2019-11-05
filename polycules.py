@@ -38,9 +38,13 @@ def migrate():
         os.path.dirname(os.path.abspath(__file__)),
         'migrations')
     with closing(connect_db()) as db:
-        current_migration = db.execute('''
-            select * from migrations
-        ''').fetchall()[0][0]
+        try:
+            current_migration = db.execute('''
+                select * from migrations
+            ''').fetchall()[0][0]
+        except sqlite3.OperationalError:
+            # If there was no migrations table, the DB does not exist yet.
+            current_migration = -1
         for filename in sorted(os.listdir(migrations_dir)):
             if filename[-3:] != 'sql':
                 continue
