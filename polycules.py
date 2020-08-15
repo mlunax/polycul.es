@@ -67,7 +67,7 @@ def migrate():
 
 def generate_csrf_token():
     if "_csrf_token" not in session:
-        session["_csrf_token"] = base64.b64encode(os.urandom(12)).decode('utf-8')
+        session["_csrf_token"] = base64.b64encode(os.urandom(12)).decode("utf-8")
     return session["_csrf_token"]
 
 
