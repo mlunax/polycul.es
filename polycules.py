@@ -19,7 +19,7 @@ from migrations import hashify
 from model import Polycule
 
 # Config
-DATABASE = "dev.db"
+DATABASE = "db/prod.db"
 DEBUG = True
 SECRET_KEY = "development key"
 
@@ -54,7 +54,7 @@ def migrate():
             if migration_number <= current_migration:
                 print("migration {} already applied".format(migration_number))
                 continue
-            with open(os.path.join(migrations_dir, filename), "rb") as f:
+            with open(os.path.join(migrations_dir, filename), "r") as f:
                 try:
                     db.cursor().executescript(f.read())
                 except Exception as e:
