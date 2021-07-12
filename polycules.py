@@ -20,7 +20,7 @@ from model import Polycule
 
 # Config
 DATABASE = "db/prod.db"
-DEBUG = True
+DEBUG = False
 SECRET_KEY = "development key"
 
 # App initialization
